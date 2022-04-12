@@ -12,9 +12,9 @@
 
 struct bmi160_dev bmi160config;
 
-int8_t bmi_i2c_write(uint8_t reg_addr, uint8_t *reg_data, uint32_t len, void *intf_ptr);
-int8_t bmi_i2c_read(uint8_t reg_addr, uint8_t *reg_data, uint32_t len, void *intf_ptr);
-void bmi_delay_ms(uint32_t period, void *intf_ptr);
+int8_t bmi_i2c_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t len);
+int8_t bmi_i2c_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t len);
+void bmi_delay_ms(uint32_t period);
 
 void I2C_Init(void);
 
@@ -35,8 +35,29 @@ void BMI160_Init(void) {
     bmi160config.write = bmi_i2c_write;
     bmi160config.read = bmi_i2c_read;
     bmi160config.delay_ms = bmi_delay_ms;
-    bmi160config.id = BMI160_I2C_ADDR;
-    bmi160config.intf = BMI160_I2C_INTF;
+    bmi160config.id = 0; //FIXME: I2C address find on datasheet
+    bmi160config.intf = 0;
+
+    bmi160_init(&bmi160config);
+
+    /* Select the Output data rate, range of accelerometer sensor */
+    bmi160config.accel_cfg.odr = BMI160_ACCEL_ODR_1600HZ;
+    bmi160config.accel_cfg.range = BMI160_ACCEL_RANGE_16G;
+    bmi160config.accel_cfg.bw = BMI160_ACCEL_BW_NORMAL_AVG4;
+
+    /* Select the power mode of accelerometer sensor */
+    bmi160config.accel_cfg.power = BMI160_ACCEL_NORMAL_MODE;
+
+    /* Select the Output data rate, range of Gyroscope sensor */
+    bmi160config.gyro_cfg.odr = BMI160_GYRO_ODR_3200HZ;
+    bmi160config.gyro_cfg.range = BMI160_GYRO_RANGE_2000_DPS;
+    bmi160config.gyro_cfg.bw = BMI160_GYRO_BW_NORMAL_MODE;
+
+    /* Select the power mode of Gyroscope sensor */
+    bmi160config.gyro_cfg.power = BMI160_GYRO_NORMAL_MODE;
+
+        /* Set the sensor configuration */
+    bmi160_set_sens_conf(&bmi160config);
 
 }
 
@@ -44,9 +65,32 @@ void BMI160_Init(void) {
 
 /****** PRIVATE FUNCTION DEFINITIONS ******/
 
-int8_t bmi_i2c_read(uint8_t reg_addr, uint8_t *reg_data, uint32_t len, void *intf_ptr)
+
+
+
+int8_t bmi_i2c_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t len)
 {
-    int8_t rslt = 0; /* Return 0 for Success, non-zero for failure */
+    USCI_B_I2C_setMode(USCI_B0_BASE, USCI_B_I2C_TRANSMIT_MODE); //send start condition in transmit mode
+    //USCI_B_I2C_masterSendStart(USCI_B0_BASE);
+    //while(USCI_B_I2C_masterIsStartSent(USCI_B0_BASE) == USCI_B_I2C_SENDING_START);
+    //write register address
+    USCI_B_I2C_masterSendMultiByteStart(USCI_B0_BASE, reg_addr);
+
+    while (!(HWREG8(USCI_B0_BASE + OFS_UCBxIFG) & UCTXIFG)); //poll transmit flag before sending restart condition
+
+    //USCI_B_I2C_setMode(USCI_B0_BASE, USCI_B_I2C_RECEIVE_MODE);
+    USCI_B_I2C_masterReceiveMultiByteStart(USCI_B0_BASE); //send restart condition
+
+    for (uint32_t i = 0; i < len; i++) {
+        while (!(HWREG8(USCI_B0_BASE + OFS_UCBxIFG) & UCRXIFG)); //wait until byte is received
+        if (i == len-1) {
+            reg_data[i] = USCI_B_I2C_masterReceiveMultiByteFinish(USCI_B0_BASE); //stop condition
+        }
+        else {
+            reg_data[i] = USCI_B_I2C_masterReceiveMultiByteNext(USCI_B0_BASE);
+        }
+
+    }
 
     /*
      * The parameter intf_ptr can be used as a variable to store the I2C address of the device
@@ -68,12 +112,32 @@ int8_t bmi_i2c_read(uint8_t reg_addr, uint8_t *reg_data, uint32_t len, void *int
      * |------------+---------------------|
      */
 
-    return rslt;
+    return 0;
 }
 
-int8_t bmi_i2c_write(uint8_t reg_addr, uint8_t *reg_data, uint32_t len, void *intf_ptr)
+int8_t bmi_i2c_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t len)
 {
-    int8_t rslt = 0; /* Return 0 for Success, non-zero for failure */
+    //int8_t rslt = 0; /* Return 0 for Success, non-zero for failure */
+
+    USCI_B_I2C_setMode(USCI_B0_BASE, USCI_B_I2C_TRANSMIT_MODE); //set mode to transmit
+
+    USCI_B_I2C_masterSendMultiByteStart(USCI_B0_BASE, reg_addr); //send start condition
+
+    while (!(HWREG8(USCI_B0_BASE + OFS_UCBxIFG) & UCTXIFG));
+
+    if (len > 1) {
+        for (uint32_t i = 0; i < len; i++) {
+            if (i == len-1) {
+                USCI_B_I2C_masterSendMultiByteFinish(USCI_B0_BASE, reg_data);
+            }
+            else {
+                USCI_B_I2C_masterSendMultiByteNext (USCI_B0_BASE, reg_data); //send byte
+            }
+        }
+    }
+    else {
+        USCI_B_I2C_masterSendMultiByteStop(USCI_B0_BASE); //send stop condition
+    }
 
     /*
      * The parameter intf_ptr can be used as a variable to store the I2C address of the device
@@ -93,10 +157,10 @@ int8_t bmi_i2c_write(uint8_t reg_addr, uint8_t *reg_data, uint32_t len, void *in
      * |------------+---------------------|
      */
 
-    return rslt;
+    return 0;
 }
 
-void bmi_delay_ms(uint32_t period, void *intf_ptr) {
+void bmi_delay_ms(uint32_t period) {
     //Timer_B_setCompareValue(TIMER_B0_BASE, TIMER_B_CAPTURECOMPARE_REGISTER_0, ((uint16_t) period) * 10 - 1);//start counter on timer B, set CCR0 to period*10 - 1
     TB0R = ((uint16_t) period) * 10 - 1;
     Timer_B_startCounter(TIMER_B0_BASE, TIMER_B_CONTINUOUS_MODE);
@@ -106,13 +170,16 @@ void bmi_delay_ms(uint32_t period, void *intf_ptr) {
 }
 
 void I2C_Init(void) {
-    USCI_B_I2C_initMasterParam = { //struct to initialize I2C module
+    USCI_B_I2C_initMasterParam initI2C = { //struct to initialize I2C module
                                    USCI_B_I2C_CLOCKSOURCE_SMCLK,
                                    16777216,
                                    USCI_B_I2C_SET_DATA_RATE_400KBPS
     };
 
-    USCI_B_I2C_initMaster(USCI_B0_BASE, &USCI_B_I2C_initMasterParam);
+    USCI_B_I2C_initMaster(USCI_B0_BASE, &initI2C);
+
+    USCI_B_I2C_setSlaveAddress(USCI_B0_BASE, BMI160_I2C_ADDR);
+    USCI_B_I2C_setMode(USCI_B0_BASE, USCI_B_I2C_TRANSMIT_MODE);
 
     //set up relevant pins
 #ifdef __MSP430F5529__

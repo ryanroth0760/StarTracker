@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:\\ti\\ccs1020\\ccs\\ccs_base\\msp430\\**",
+                "C:\\ti\\ccs1020\\ccs\\ccs_base\\**",
+                "C:\\ti\\msp\\MSP430Ware_3_80_14_01\\driverlib\\driverlib\\MSP430F5xx_6xx\\**",
+                "C:\\ti\\ccs1020\\ccs\\tools\\compiler\\msp430-gcc-9.3.0.31_win64\\**",
+                "C:\\ti\\ccs1020\\ccs\\tools\\compiler\\ti-cgt-msp430_20.2.2.LTS\\include\\**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.18362.0",
+            "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2019/Community/VC/Tools/MSVC/14.29.30133/bin/Hostx64/x64/cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-msvc-x64"
+        }
+    ],
+    "version": 4
+}

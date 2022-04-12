@@ -251,7 +251,7 @@ typedef struct Timer_A_outputPWMParam {
     //! \n Valid values are:
     //! - \b TIMER_A_OUTPUTMODE_OUTBITVALUE [Default]
     //! - \b TIMER_A_OUTPUTMODE_SET
-    //! - \b TIMER_A_OUTPUTMODE_TOGGLE_RESET
+    //! - \b
     //! - \b TIMER_A_OUTPUTMODE_SET_RESET
     //! - \b TIMER_A_OUTPUTMODE_TOGGLE
     //! - \b TIMER_A_OUTPUTMODE_RESET

@@ -263,7 +263,7 @@ void USCI_B_I2C_masterSendMultiByteStart (uint16_t baseAddress,
     HWREG8(baseAddress + OFS_UCBxCTL1) |= UCTR +  UCTXSTT;
 
     //Poll for transmit interrupt flag.
-    while (!(HWREG8(baseAddress + OFS_UCBxIFG) & UCTXIFG)) ;
+    while (!(HWREG8(baseAddress + OFS_UCBxIFG) & UCTXIFG));
 
     //Send single byte data.
     HWREG8(baseAddress + OFS_UCBxTXBUF) = txData;
