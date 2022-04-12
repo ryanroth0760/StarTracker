@@ -23,7 +23,7 @@ devices/src/bmx160_msp430.obj: C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20
 devices/src/bmx160_msp430.obj: C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/driverlib.h
 devices/src/bmx160_msp430.obj: C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/inc/hw_memmap.h
 devices/src/bmx160_msp430.obj: C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430.h
-devices/src/bmx160_msp430.obj: C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430f5529.h
+devices/src/bmx160_msp430.obj: C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430f6438.h
 devices/src/bmx160_msp430.obj: C:/ti/ccs1020/ccs/ccs_base/msp430/include/in430.h
 devices/src/bmx160_msp430.obj: C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include/intrinsics.h
 devices/src/bmx160_msp430.obj: C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include/intrinsics_legacy_undefs.h
@@ -94,7 +94,7 @@ C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include/stdlib.h:
 C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/driverlib.h: 
 C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/inc/hw_memmap.h: 
 C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430.h: 
-C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430f5529.h: 
+C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430f6438.h: 
 C:/ti/ccs1020/ccs/ccs_base/msp430/include/in430.h: 
 C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include/intrinsics.h: 
 C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include/intrinsics_legacy_undefs.h: 

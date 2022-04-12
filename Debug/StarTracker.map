@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v20.2.2                     
 ******************************************************************************
->> Linked Tue Apr 12 15:52:45 2022
+>> Linked Tue Apr 12 17:33:10 2022
 
 OUTPUT FILE NAME:   <StarTracker.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00004458
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00008058
 
 
 MEMORY CONFIGURATION
@@ -18,9 +18,8 @@ MEMORY CONFIGURATION
   INFOC                 00001880   00000080  00000000  00000080  RWIX
   INFOB                 00001900   00000080  00000000  00000080  RWIX
   INFOA                 00001980   00000080  00000000  00000080  RWIX
-  USBRAM                00001c00   00000800  00000000  00000800  RWIX
-  RAM                   00002400   00002000  000000c7  00001f39  RWIX
-  FLASH                 00004400   0000bb80  00000776  0000b40a  RWIX
+  RAM                   00002400   00004000  000000cf  00003f31  RWIX
+  FLASH                 00008000   00007f80  00000763  0000781d  RWIX
   INT00                 0000ff80   00000002  00000000  00000002  RWIX
   INT01                 0000ff82   00000002  00000000  00000002  RWIX
   INT02                 0000ff84   00000002  00000000  00000002  RWIX
@@ -58,10 +57,10 @@ MEMORY CONFIGURATION
   INT34                 0000ffc4   00000002  00000000  00000002  RWIX
   INT35                 0000ffc6   00000002  00000000  00000002  RWIX
   INT36                 0000ffc8   00000002  00000000  00000002  RWIX
-  INT37                 0000ffca   00000002  00000000  00000002  RWIX
-  INT38                 0000ffcc   00000002  00000000  00000002  RWIX
-  INT39                 0000ffce   00000002  00000000  00000002  RWIX
-  INT40                 0000ffd0   00000002  00000000  00000002  RWIX
+  INT37                 0000ffca   00000002  00000002  00000000  RWIX
+  INT38                 0000ffcc   00000002  00000002  00000000  RWIX
+  INT39                 0000ffce   00000002  00000002  00000000  RWIX
+  INT40                 0000ffd0   00000002  00000002  00000000  RWIX
   INT41                 0000ffd2   00000002  00000002  00000000  RWIX
   INT42                 0000ffd4   00000002  00000002  00000000  RWIX
   INT43                 0000ffd6   00000002  00000002  00000000  RWIX
@@ -85,7 +84,7 @@ MEMORY CONFIGURATION
   INT61                 0000fffa   00000002  00000002  00000000  RWIX
   INT62                 0000fffc   00000002  00000002  00000000  RWIX
   RESET                 0000fffe   00000002  00000002  00000000  RWIX
-  FLASH2                00010000   000143f8  00000b98  00013860  RWIX
+  FLASH2                00010000   00037ff8  00000d30  000372c8  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -93,67 +92,78 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.data      0    00002400    0000001f     UNINITIALIZED
+.data      0    00002400    00000027     UNINITIALIZED
                   00002400    0000000e     LCDLib.obj (.data:LCD_SPI_CONFIG)
                   0000240e    0000000c     LCDLib.obj (.data:LCD_PWM_CONFIG)
-                  0000241a    00000005     GPS.obj (.data)
+                  0000241a    00000008     ucs.obj (.data)
+                  00002422    00000005     GPS.obj (.data)
 
-.bss       0    00002420    00000008     UNINITIALIZED
-                  00002420    00000008     GPS.obj (.bss)
+.bss       0    00002428    00000008     UNINITIALIZED
+                  00002428    00000008     GPS.obj (.bss)
 
-.stack     0    00004360    000000a0     UNINITIALIZED
-                  00004360    00000004     rts430x_lc_rd_eabi.lib : boot.c.obj (.stack)
-                  00004364    0000009c     --HOLE--
+.stack     0    00006360    000000a0     UNINITIALIZED
+                  00006360    00000004     rts430x_lc_rd_eabi.lib : boot.c.obj (.stack)
+                  00006364    0000009c     --HOLE--
 
 .text:_isr 
-*          0    00004400    0000007c     
-                  00004400    00000058     GPS.obj (.text:_isr:GPS_RX_interruptHandler)
-                  00004458    0000001c     rts430x_lc_rd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs)
-                  00004474    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+*          0    00008000    0000007c     
+                  00008000    00000058     GPS.obj (.text:_isr:GPS_RX_interruptHandler)
+                  00008058    0000001c     rts430x_lc_rd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs)
+                  00008074    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
 
-.cinit     0    00004b30    00000046     
-                  00004b30    00000023     (.cinit..data.load) [load image, compression = lzss]
-                  00004b53    00000001     --HOLE-- [fill = 0]
-                  00004b54    0000000c     (__TI_handler_table)
-                  00004b60    00000006     (.cinit..bss.load) [load image, compression = zero_init]
-                  00004b66    00000010     (__TI_cinit_table)
+.cinit     0    0000871e    00000046     
+                  0000871e    00000023     (.cinit..data.load) [load image, compression = lzss]
+                  00008741    00000001     --HOLE-- [fill = 0]
+                  00008742    0000000c     (__TI_handler_table)
+                  0000874e    00000006     (.cinit..bss.load) [load image, compression = zero_init]
+                  00008754    00000010     (__TI_cinit_table)
 
-.binit     0    00004400    00000000     
+.binit     0    00008000    00000000     
 
 .init_array 
-*          0    00004400    00000000     UNINITIALIZED
+*          0    00008000    00000000     UNINITIALIZED
 
-.const     0    0000447c    000006b4     
-                  0000447c    000005f0     AsciiLib.obj (.const:AsciiLib)
-                  00004a6c    0000003b     LCDLib.obj (.const:.string:Rcmd1)
-                  00004aa7    00000001     --HOLE-- [fill = 0]
-                  00004aa8    0000002b     LCDLib.obj (.const:.string:Rcmd3)
-                  00004ad3    00000001     --HOLE-- [fill = 0]
-                  00004ad4    00000026     main.obj (.const:.string)
-                  00004afa    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
-                  00004b16    0000000d     LCDLib.obj (.const:.string:Rcmd2green)
-                  00004b23    00000001     --HOLE-- [fill = 0]
-                  00004b24    0000000c     GPS.obj (.const:$P$T0$1)
+.const     0    0000807c    000006a1     
+                  0000807c    000005f0     AsciiLib.obj (.const:AsciiLib)
+                  0000866c    0000003b     LCDLib.obj (.const:.string:Rcmd1)
+                  000086a7    00000001     --HOLE-- [fill = 0]
+                  000086a8    0000002b     LCDLib.obj (.const:.string:Rcmd3)
+                  000086d3    00000001     --HOLE-- [fill = 0]
+                  000086d4    00000020     main.obj (.const:.string)
+                  000086f4    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
+                  00008710    0000000d     LCDLib.obj (.const:.string:Rcmd2green)
 
-RTC        0    0000ffd2    00000002     
-                  0000ffd2    00000002     rts430x_lc_rd_eabi.lib : int41.asm.obj (.int41)
+PORT4      0    0000ffca    00000002     
+                  0000ffca    00000002     rts430x_lc_rd_eabi.lib : int37.asm.obj (.int37)
 
-PORT2      0    0000ffd4    00000002     
-                  0000ffd4    00000002     rts430x_lc_rd_eabi.lib : int42.asm.obj (.int42)
+PORT3      0    0000ffcc    00000002     
+                  0000ffcc    00000002     rts430x_lc_rd_eabi.lib : int38.asm.obj (.int38)
 
 TIMER2_A1 
-*          0    0000ffd6    00000002     
-                  0000ffd6    00000002     rts430x_lc_rd_eabi.lib : int43.asm.obj (.int43)
+*          0    0000ffce    00000002     
+                  0000ffce    00000002     rts430x_lc_rd_eabi.lib : int39.asm.obj (.int39)
 
 TIMER2_A0 
-*          0    0000ffd8    00000002     
+*          0    0000ffd0    00000002     
+                  0000ffd0    00000002     rts430x_lc_rd_eabi.lib : int40.asm.obj (.int40)
+
+DAC12      0    0000ffd2    00000002     
+                  0000ffd2    00000002     rts430x_lc_rd_eabi.lib : int41.asm.obj (.int41)
+
+RTC        0    0000ffd4    00000002     
+                  0000ffd4    00000002     rts430x_lc_rd_eabi.lib : int42.asm.obj (.int42)
+
+LCD_B      0    0000ffd6    00000002     
+                  0000ffd6    00000002     rts430x_lc_rd_eabi.lib : int43.asm.obj (.int43)
+
+PORT2      0    0000ffd8    00000002     
                   0000ffd8    00000002     rts430x_lc_rd_eabi.lib : int44.asm.obj (.int44)
 
 USCI_B1    0    0000ffda    00000002     
                   0000ffda    00000002     rts430x_lc_rd_eabi.lib : int45.asm.obj (.int45)
 
 USCI_A1    0    0000ffdc    00000002     
-                  0000ffdc    00000002     rts430x_lc_rd_eabi.lib : int46.asm.obj (.int46)
+                  0000ffdc    00000002     GPS.obj (.int46)
 
 PORT1      0    0000ffde    00000002     
                   0000ffde    00000002     rts430x_lc_rd_eabi.lib : int47.asm.obj (.int47)
@@ -169,7 +179,7 @@ TIMER1_A0
 DMA        0    0000ffe4    00000002     
                   0000ffe4    00000002     rts430x_lc_rd_eabi.lib : int50.asm.obj (.int50)
 
-USB_UBM    0    0000ffe6    00000002     
+LDO_PWR    0    0000ffe6    00000002     
                   0000ffe6    00000002     rts430x_lc_rd_eabi.lib : int51.asm.obj (.int51)
 
 TIMER0_A1 
@@ -187,7 +197,7 @@ USCI_B0    0    0000ffee    00000002
                   0000ffee    00000002     rts430x_lc_rd_eabi.lib : int55.asm.obj (.int55)
 
 USCI_A0    0    0000fff0    00000002     
-                  0000fff0    00000002     GPS.obj (.int56)
+                  0000fff0    00000002     rts430x_lc_rd_eabi.lib : int56.asm.obj (.int56)
 
 WDT        0    0000fff2    00000002     
                   0000fff2    00000002     rts430x_lc_rd_eabi.lib : int57.asm.obj (.int57)
@@ -212,92 +222,102 @@ SYSNMI     0    0000fffc    00000002
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430x_lc_rd_eabi.lib : boot.c.obj (.reset)
 
-.text      0    00010000    00000b98     
+.text      0    00010000    00000d30     
                   00010000    0000014e     LCDLib.obj (.text:LCD_setAddrWindow)
-                  0001014e    000000e2     ucs.obj (.text:UCS_initFLL)
-                  00010230    000000d6     usci_a_uart.obj (.text:USCI_A_UART_init)
-                  00010306    000000a6     ucs.obj (.text:UCS_initClockSignal)
-                  000103ac    0000008c     main.obj (.text:main)
-                  00010438    0000008c     LCDLib.obj (.text:sendCommand)
-                  000104c4    00000086     LCDLib.obj (.text:LCD_Clear)
-                  0001054a    00000082     LCDLib.obj (.text:LCD_SetPoint)
-                  000105cc    00000076     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00010642    00000072     LCDLib.obj (.text:LCD_initSPI)
-                  000106b4    00000072     timer_a.obj (.text:Timer_A_outputPWM)
-                  00010726    0000005e     LCDLib.obj (.text:PutChar)
-                  00010784    0000005c     usci_b_spi.obj (.text:USCI_B_SPI_initMaster)
-                  000107e0    00000058     LCDLib.obj (.text:LCD_initDisplay)
-                  00010838    00000058     rts430x_lc_rd_eabi.lib : div32u.asm.obj (.text)
-                  00010890    00000054                            : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
-                  000108e4    00000040     LCDLib.obj (.text:LCD_Init)
-                  00010924    0000003e     GPS.obj (.text:GPS_Init)
-                  00010962    0000003c     LCDLib.obj (.text:LCD_Text)
-                  0001099e    0000003c     LCDLib.obj (.text:LCD_writeCommand)
-                  000109da    00000036     ucs.obj (.text:UCS_initFLLSettle)
-                  00010a10    0000002c     AsciiLib.obj (.text:GetASCIICode)
-                  00010a3c    0000002a     LCDLib.obj (.text:LCD_reset)
-                  00010a66    00000028     gpio.obj (.text:GPIO_setAsOutputPin)
-                  00010a8e    00000024     rts430x_lc_rd_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  00010ab2    00000020     LCDLib.obj (.text:Delay)
-                  00010ad2    00000020     wdt_a.obj (.text:WDT_A_hold)
-                  00010af2    0000001c     gpio.obj (.text:GPIO_setOutputHighOnPin)
-                  00010b0e    0000001c     gpio.obj (.text:GPIO_setOutputLowOnPin)
-                  00010b2a    00000014     GPS.obj (.text:GPS_enable)
-                  00010b3e    00000014     rts430x_lc_rd_eabi.lib : memcpy.c.obj (.text:memcpy)
-                  00010b52    00000012                            : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  00010b64    0000000a     usci_b_spi.obj (.text:USCI_B_SPI_transmitData)
-                  00010b6e    0000000a     rts430x_lc_rd_eabi.lib : lsl16.asm.obj (.text)
-                  00010b78    00000008     usci_b_spi.obj (.text:USCI_B_SPI_receiveData)
-                  00010b80    00000006     usci_a_uart.obj (.text:USCI_A_UART_enable)
-                  00010b86    00000006     usci_b_spi.obj (.text:USCI_B_SPI_enable)
-                  00010b8c    00000006     rts430x_lc_rd_eabi.lib : exit.c.obj (.text:abort)
-                  00010b92    00000004                            : pre_init.c.obj (.text:_system_pre_init)
-                  00010b96    00000002                            : startup.c.obj (.text:_system_post_cinit)
+                  0001014e    00000110     ucs.obj (.text:privateUCSSourceClockFromDCO)
+                  0001025e    000000e6     ucs.obj (.text:privateUCSComputeCLKFrequency)
+                  00010344    000000e2     ucs.obj (.text:UCS_initFLL)
+                  00010426    000000a6     ucs.obj (.text:UCS_initClockSignal)
+                  000104cc    00000094     main.obj (.text:main)
+                  00010560    00000088     LCDLib.obj (.text:sendCommand)
+                  000105e8    00000082     LCDLib.obj (.text:LCD_Clear)
+                  0001066a    0000007e     LCDLib.obj (.text:LCD_SetPoint)
+                  000106e8    00000076     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  0001075e    00000072     timer_a.obj (.text:Timer_A_outputPWM)
+                  000107d0    0000006e     LCDLib.obj (.text:LCD_initSPI)
+                  0001083e    0000005e     LCDLib.obj (.text:PutChar)
+                  0001089c    0000005c     usci_b_spi.obj (.text:USCI_B_SPI_initMaster)
+                  000108f8    00000058     LCDLib.obj (.text:LCD_initDisplay)
+                  00010950    00000058     rts430x_lc_rd_eabi.lib : div32u.asm.obj (.text)
+                  000109a8    00000054                            : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
+                  000109fc    0000004c     LCDLib.obj (.text:LCD_Init)
+                  00010a48    00000040     rts430x_lc_rd_eabi.lib : div32s.asm.obj (.text)
+                  00010a88    0000003c     LCDLib.obj (.text:LCD_Text)
+                  00010ac4    0000003c     LCDLib.obj (.text:LCD_writeCommand)
+                  00010b00    00000036     ucs.obj (.text:UCS_initFLLSettle)
+                  00010b36    0000002c     AsciiLib.obj (.text:GetASCIICode)
+                  00010b62    0000002c     rts430x_lc_rd_eabi.lib : div16s.asm.obj (.text)
+                  00010b8e    0000002a     LCDLib.obj (.text:LCD_reset)
+                  00010bb8    00000028     gpio.obj (.text:GPIO_setAsOutputPin)
+                  00010be0    00000024     rts430x_lc_rd_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  00010c04    00000024                            : mult32_f5hw.asm.obj (.text)
+                  00010c28    00000020     LCDLib.obj (.text:Delay)
+                  00010c48    00000020     wdt_a.obj (.text:WDT_A_hold)
+                  00010c68    0000001c     gpio.obj (.text:GPIO_setOutputHighOnPin)
+                  00010c84    0000001c     gpio.obj (.text:GPIO_setOutputLowOnPin)
+                  00010ca0    0000001a     ucs.obj (.text:UCS_getSMCLK)
+                  00010cba    00000016     rts430x_lc_rd_eabi.lib : div16u.asm.obj (.text)
+                  00010cd0    00000014                            : memcpy.c.obj (.text:memcpy)
+                  00010ce4    00000012                            : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00010cf6    0000000c     timer_a.obj (.text:Timer_A_startCounter)
+                  00010d02    0000000a     usci_b_spi.obj (.text:USCI_B_SPI_transmitData)
+                  00010d0c    0000000a     rts430x_lc_rd_eabi.lib : lsl16.asm.obj (.text)
+                  00010d16    00000008     usci_b_spi.obj (.text:USCI_B_SPI_receiveData)
+                  00010d1e    00000006     usci_b_spi.obj (.text:USCI_B_SPI_enable)
+                  00010d24    00000006     rts430x_lc_rd_eabi.lib : exit.c.obj (.text:abort)
+                  00010d2a    00000004                            : pre_init.c.obj (.text:_system_pre_init)
+                  00010d2e    00000002                            : startup.c.obj (.text:_system_post_cinit)
 
 MODULE SUMMARY
 
        Module                       code   ro data   rw data
        ------                       ----   -------   -------
     .\
-       main.obj                     140    38        0      
+       main.obj                     148    32        0      
     +--+----------------------------+------+---------+---------+
-       Total:                       140    38        0      
+       Total:                       148    32        0      
                                                             
     .\devices\src\
        AsciiLib.obj                 44     1520      0      
-       LCDLib.obj                   1292   115       26     
-       GPS.obj                      170    14        13     
+       LCDLib.obj                   1288   115       26     
+       GPS.obj                      88     2         13     
     +--+----------------------------+------+---------+---------+
-       Total:                       1506   1649      39     
+       Total:                       1420   1637      39     
                                                             
     .\driverlib\MSP430F5xx_6xx\
-       ucs.obj                      446    0         0      
-       usci_a_uart.obj              220    0         0      
+       ucs.obj                      974    0         8      
+       timer_a.obj                  126    0         0      
        gpio.obj                     96     28        0      
        usci_b_spi.obj               116    0         0      
-       timer_a.obj                  114    0         0      
        wdt_a.obj                    32     0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       1024   28        0      
+       Total:                       1344   28        8      
                                                             
     C:\ti\ccs1020\ccs\tools\compiler\ti-cgt-msp430_20.2.2.LTS\lib\rts430x_lc_rd_eabi.lib
        copy_decompress_lzss.c.obj   118    0         0      
        div32u.asm.obj               88     0         0      
        autoinit.c.obj               84     0         0      
+       div32s.asm.obj               64     0         0      
+       div16s.asm.obj               44     0         0      
        copy_zero_init.c.obj         36     0         0      
+       mult32_f5hw.asm.obj          36     0         0      
        boot.c.obj                   28     2         0      
+       div16u.asm.obj               22     0         0      
        memcpy.c.obj                 20     0         0      
        copy_decompress_none.c.obj   18     0         0      
        lsl16.asm.obj                10     0         0      
        isr_trap.asm.obj             8      0         0      
        exit.c.obj                   6      0         0      
        pre_init.c.obj               4      0         0      
+       int37.asm.obj                0      2         0      
+       int38.asm.obj                0      2         0      
+       int39.asm.obj                0      2         0      
+       int40.asm.obj                0      2         0      
        int41.asm.obj                0      2         0      
        int42.asm.obj                0      2         0      
        int43.asm.obj                0      2         0      
        int44.asm.obj                0      2         0      
        int45.asm.obj                0      2         0      
-       int46.asm.obj                0      2         0      
        int47.asm.obj                0      2         0      
        int48.asm.obj                0      2         0      
        int49.asm.obj                0      2         0      
@@ -307,6 +327,7 @@ MODULE SUMMARY
        int53.asm.obj                0      2         0      
        int54.asm.obj                0      2         0      
        int55.asm.obj                0      2         0      
+       int56.asm.obj                0      2         0      
        int57.asm.obj                0      2         0      
        int58.asm.obj                0      2         0      
        int59.asm.obj                0      2         0      
@@ -315,24 +336,24 @@ MODULE SUMMARY
        int62.asm.obj                0      2         0      
        startup.c.obj                2      0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       422    44        0      
+       Total:                       588    52        0      
                                                             
        Stack:                       0      0         160    
        Linker Generated:            0      69        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 3092   1828      199    
+       Grand Total:                 3500   1818      207    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00004b66 records: 2, size/record: 8, table size: 16
-	.data: load addr=00004b30, load size=00000023 bytes, run addr=00002400, run size=0000001f bytes, compression=lzss
-	.bss: load addr=00004b60, load size=00000006 bytes, run addr=00002420, run size=00000008 bytes, compression=zero_init
+__TI_cinit_table @ 00008754 records: 2, size/record: 8, table size: 16
+	.data: load addr=0000871e, load size=00000023 bytes, run addr=00002400, run size=00000027 bytes, compression=lzss
+	.bss: load addr=0000874e, load size=00000006 bytes, run addr=00002428, run size=00000008 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00004b54 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00008742 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_lzss
 	index: 2, handler: __TI_decompress_none
@@ -424,7 +445,27 @@ address   name
 00000732  ADC12MEM9                              
 00000733  ADC12MEM9_H                            
 00000732  ADC12MEM9_L                            
-00010b8c  C$$EXIT                                
+0000049e  BAKCHCTL                               
+0000049f  BAKCHCTL_H                             
+0000049e  BAKCHCTL_L                             
+0000049c  BAKCTL                                 
+0000049d  BAKCTL_H                               
+0000049c  BAKCTL_L                               
+00000480  BAKMEM0                                
+00000481  BAKMEM0_H                              
+00000480  BAKMEM0_L                              
+00000482  BAKMEM1                                
+00000483  BAKMEM1_H                              
+00000482  BAKMEM1_L                              
+00000484  BAKMEM2                                
+00000485  BAKMEM2_H                              
+00000484  BAKMEM2_L                              
+00000486  BAKMEM3                                
+00000487  BAKMEM3_H                              
+00000486  BAKMEM3_L                              
+000004be  BCD2BIN                                
+000004bc  BIN2BCD                                
+00010d24  C$$EXIT                                
 000008c0  CBCTL0                                 
 000008c1  CBCTL0_H                               
 000008c0  CBCTL0_L                               
@@ -453,6 +494,17 @@ address   name
 00000156  CRCRESR                                
 00000157  CRCRESR_H                              
 00000156  CRCRESR_L                              
+00000786  DAC12_0CALCTL                          
+00000788  DAC12_0CALDAT                          
+00000780  DAC12_0CTL0                            
+00000782  DAC12_0CTL1                            
+00000784  DAC12_0DAT                             
+00000796  DAC12_1CALCTL                          
+00000798  DAC12_1CALDAT                          
+00000790  DAC12_1CTL0                            
+00000792  DAC12_1CTL1                            
+00000794  DAC12_1DAT                             
+0000079e  DAC12_IV                               
 00000510  DMA0CTL                                
 00000516  DMA0DA                                 
 00000518  DMA0DAH                                
@@ -477,6 +529,30 @@ address   name
 00000534  DMA2SAH                                
 00000532  DMA2SAL                                
 0000053a  DMA2SZ                                 
+00000540  DMA3CTL                                
+00000546  DMA3DA                                 
+00000548  DMA3DAH                                
+00000546  DMA3DAL                                
+00000542  DMA3SA                                 
+00000544  DMA3SAH                                
+00000542  DMA3SAL                                
+0000054a  DMA3SZ                                 
+00000550  DMA4CTL                                
+00000556  DMA4DA                                 
+00000558  DMA4DAH                                
+00000556  DMA4DAL                                
+00000552  DMA4SA                                 
+00000554  DMA4SAH                                
+00000552  DMA4SAL                                
+0000055a  DMA4SZ                                 
+00000560  DMA5CTL                                
+00000566  DMA5DA                                 
+00000568  DMA5DAH                                
+00000566  DMA5DAL                                
+00000562  DMA5SA                                 
+00000564  DMA5SAH                                
+00000562  DMA5SAL                                
+0000056a  DMA5SZ                                 
 00000500  DMACTL0                                
 00000502  DMACTL1                                
 00000504  DMACTL2                                
@@ -492,18 +568,101 @@ address   name
 00000146  FCTL4                                  
 00000147  FCTL4_H                                
 00000146  FCTL4_L                                
-00010a66  GPIO_setAsOutputPin                    
-00010af2  GPIO_setOutputHighOnPin                
-00010b0e  GPIO_setOutputLowOnPin                 
-00010924  GPS_Init                               
-00004400  GPS_RX_interruptHandler                
-00010b2a  GPS_enable                             
-00010a10  GetASCIICode                           
-000104c4  LCD_Clear                              
-000108e4  LCD_Init                               
-0001054a  LCD_SetPoint                           
-00010962  LCD_Text                               
+00010bb8  GPIO_setAsOutputPin                    
+00010c68  GPIO_setOutputHighOnPin                
+00010c84  GPIO_setOutputLowOnPin                 
+00008000  GPS_RX_interruptHandler                
+00010b36  GetASCIICode                           
+00000a04  LCDBBLKCTL                             
+00000a05  LCDBBLKCTL_H                           
+00000a04  LCDBBLKCTL_L                           
+00000a12  LCDBCPCTL                              
+00000a13  LCDBCPCTL_H                            
+00000a12  LCDBCPCTL_L                            
+00000a00  LCDBCTL0                               
+00000a01  LCDBCTL0_H                             
+00000a00  LCDBCTL0_L                             
+00000a02  LCDBCTL1                               
+00000a03  LCDBCTL1_H                             
+00000a02  LCDBCTL1_L                             
+00000a1e  LCDBIV                                 
+00000a40  LCDBM1                                 
+00000a49  LCDBM10                                
+00000a4a  LCDBM11                                
+00000a4b  LCDBM12                                
+00000a4c  LCDBM13                                
+00000a4d  LCDBM14                                
+00000a4e  LCDBM15                                
+00000a4f  LCDBM16                                
+00000a50  LCDBM17                                
+00000a51  LCDBM18                                
+00000a52  LCDBM19                                
+00000a41  LCDBM2                                 
+00000a53  LCDBM20                                
+00000a54  LCDBM21                                
+00000a55  LCDBM22                                
+00000a56  LCDBM23                                
+00000a57  LCDBM24                                
+00000a42  LCDBM3                                 
+00000a43  LCDBM4                                 
+00000a44  LCDBM5                                 
+00000a45  LCDBM6                                 
+00000a46  LCDBM7                                 
+00000a47  LCDBM8                                 
+00000a48  LCDBM9                                 
+00000a06  LCDBMEMCTL                             
+00000a07  LCDBMEMCTL_H                           
+00000a06  LCDBMEMCTL_L                           
+00000a0a  LCDBPCTL0                              
+00000a0b  LCDBPCTL0_H                            
+00000a0a  LCDBPCTL0_L                            
+00000a0c  LCDBPCTL1                              
+00000a0d  LCDBPCTL1_H                            
+00000a0c  LCDBPCTL1_L                            
+00000a0e  LCDBPCTL2                              
+00000a0f  LCDBPCTL2_H                            
+00000a0e  LCDBPCTL2_L                            
+00000a10  LCDBPCTL3                              
+00000a11  LCDBPCTL3_H                            
+00000a10  LCDBPCTL3_L                            
+00000a08  LCDBVCTL                               
+00000a09  LCDBVCTL_H                             
+00000a08  LCDBVCTL_L                             
+00000a20  LCDM1                                  
+00000a29  LCDM10                                 
+00000a2a  LCDM11                                 
+00000a2b  LCDM12                                 
+00000a2c  LCDM13                                 
+00000a2d  LCDM14                                 
+00000a2e  LCDM15                                 
+00000a2f  LCDM16                                 
+00000a30  LCDM17                                 
+00000a31  LCDM18                                 
+00000a32  LCDM19                                 
+00000a21  LCDM2                                  
+00000a33  LCDM20                                 
+00000a34  LCDM21                                 
+00000a35  LCDM22                                 
+00000a36  LCDM23                                 
+00000a37  LCDM24                                 
+00000a22  LCDM3                                  
+00000a23  LCDM4                                  
+00000a24  LCDM5                                  
+00000a25  LCDM6                                  
+00000a26  LCDM7                                  
+00000a27  LCDM8                                  
+00000a28  LCDM9                                  
+000105e8  LCD_Clear                              
+000109fc  LCD_Init                               
+0001066a  LCD_SetPoint                           
+00010a88  LCD_Text                               
 00010000  LCD_setAddrWindow                      
+00000900  LDOKEYPID                              
+00000901  LDOKEYPID_H                            
+00000900  LDOKEYPID_L                            
+00000908  LDOPWRCTL                              
+00000909  LDOPWRCTL_H                            
+00000908  LDOPWRCTL_L                            
 000004c4  MAC                                    
 000004da  MAC32H                                 
 000004db  MAC32H_H                               
@@ -554,18 +713,20 @@ address   name
 000004c8  OP2_L                                  
 0000020e  P1IV                                   
 0000021e  P2IV                                   
-000001e0  P4MAP01                                
-000001e1  P4MAP01_H                              
-000001e0  P4MAP01_L                              
-000001e2  P4MAP23                                
-000001e3  P4MAP23_H                              
-000001e2  P4MAP23_L                              
-000001e4  P4MAP45                                
-000001e5  P4MAP45_H                              
-000001e4  P4MAP45_L                              
-000001e6  P4MAP67                                
-000001e7  P4MAP67_H                              
-000001e6  P4MAP67_L                              
+000001d0  P2MAP01                                
+000001d1  P2MAP01_H                              
+000001d0  P2MAP01_L                              
+000001d2  P2MAP23                                
+000001d3  P2MAP23_H                              
+000001d2  P2MAP23_L                              
+000001d4  P2MAP45                                
+000001d5  P2MAP45_H                              
+000001d4  P2MAP45_L                              
+000001d6  P2MAP67                                
+000001d7  P2MAP67_H                              
+000001d6  P2MAP67_L                              
+0000022e  P3IV                                   
+0000023e  P4IV                                   
 00000204  PADIR                                  
 00000205  PADIR_H                                
 00000204  PADIR_L                                
@@ -599,6 +760,15 @@ address   name
 00000228  PBDS                                   
 00000229  PBDS_H                                 
 00000228  PBDS_L                                 
+0000023a  PBIE                                   
+00000238  PBIES                                  
+00000239  PBIES_H                                
+00000238  PBIES_L                                
+0000023b  PBIE_H                                 
+0000023a  PBIE_L                                 
+0000023c  PBIFG                                  
+0000023d  PBIFG_H                                
+0000023c  PBIFG_L                                
 00000220  PBIN                                   
 00000221  PBIN_H                                 
 00000220  PBIN_L                                 
@@ -647,6 +817,24 @@ address   name
 0000026a  PDSEL                                  
 0000026b  PDSEL_H                                
 0000026a  PDSEL_L                                
+00000284  PEDIR                                  
+00000285  PEDIR_H                                
+00000284  PEDIR_L                                
+00000288  PEDS                                   
+00000289  PEDS_H                                 
+00000288  PEDS_L                                 
+00000280  PEIN                                   
+00000281  PEIN_H                                 
+00000280  PEIN_L                                 
+00000282  PEOUT                                  
+00000283  PEOUT_H                                
+00000282  PEOUT_L                                
+00000286  PEREN                                  
+00000287  PEREN_H                                
+00000286  PEREN_L                                
+0000028a  PESEL                                  
+0000028b  PESEL_H                                
+0000028a  PESEL_L                                
 00000324  PJDIR                                  
 00000325  PJDIR_H                                
 00000324  PJDIR_L                                
@@ -683,7 +871,10 @@ address   name
 0000012e  PMMRIE                                 
 0000012f  PMMRIE_H                               
 0000012e  PMMRIE_L                               
-00010726  PutChar                                
+00000904  PUCTL                                  
+00000905  PUCTL_H                                
+00000904  PUCTL_L                                
+0001083e  PutChar                                
 00000158  RCCTL0                                 
 00000159  RCCTL0_H                               
 00000158  RCCTL0_L                               
@@ -848,7 +1039,8 @@ address   name
 000003e0  TB0EX0                                 
 000003ee  TB0IV                                  
 000003d0  TB0R                                   
-000106b4  Timer_A_outputPWM                      
+0001075e  Timer_A_outputPWM                      
+00010cf6  Timer_A_startCounter                   
 000005d0  UCA0ABCTL                              
 000005c6  UCA0BRW                                
 000005c7  UCA0BRW_H                              
@@ -950,163 +1142,32 @@ address   name
 00000170  UCSCTL8                                
 00000171  UCSCTL8_H                              
 00000170  UCSCTL8_L                              
-00010306  UCS_initClockSignal                    
-0001014e  UCS_initFLL                            
-000109da  UCS_initFLLSettle                      
-00000902  USBCNF                                 
-00000903  USBCNF_H                               
-00000902  USBCNF_L                               
-0000093c  USBCTL                                 
-0000093a  USBFN                                  
-0000093b  USBFN_H                                
-0000093a  USBFN_L                                
-0000093f  USBFUNADR                              
-0000093d  USBIE                                  
-00002378  USBIEP0BUF                             
-000023c9  USBIEPBBAX_1                           
-000023d1  USBIEPBBAX_2                           
-000023d9  USBIEPBBAX_3                           
-000023e1  USBIEPBBAX_4                           
-000023e9  USBIEPBBAX_5                           
-000023f1  USBIEPBBAX_6                           
-000023f9  USBIEPBBAX_7                           
-000023cd  USBIEPBBAY_1                           
-000023d5  USBIEPBBAY_2                           
-000023dd  USBIEPBBAY_3                           
-000023e5  USBIEPBBAY_4                           
-000023ed  USBIEPBBAY_5                           
-000023f5  USBIEPBBAY_6                           
-000023fd  USBIEPBBAY_7                           
-000023ca  USBIEPBCTX_1                           
-000023d2  USBIEPBCTX_2                           
-000023da  USBIEPBCTX_3                           
-000023e2  USBIEPBCTX_4                           
-000023ea  USBIEPBCTX_5                           
-000023f2  USBIEPBCTX_6                           
-000023fa  USBIEPBCTX_7                           
-000023ce  USBIEPBCTY_1                           
-000023d6  USBIEPBCTY_2                           
-000023de  USBIEPBCTY_3                           
-000023e6  USBIEPBCTY_4                           
-000023ee  USBIEPBCTY_5                           
-000023f6  USBIEPBCTY_6                           
-000023fe  USBIEPBCTY_7                           
-00000920  USBIEPCNF_0                            
-000023c8  USBIEPCNF_1                            
-000023d0  USBIEPCNF_2                            
-000023d8  USBIEPCNF_3                            
-000023e0  USBIEPCNF_4                            
-000023e8  USBIEPCNF_5                            
-000023f0  USBIEPCNF_6                            
-000023f8  USBIEPCNF_7                            
-00000921  USBIEPCNT_0                            
-0000092e  USBIEPIE                               
-00000930  USBIEPIFG                              
-000023cf  USBIEPSIZXY_1                          
-000023d7  USBIEPSIZXY_2                          
-000023df  USBIEPSIZXY_3                          
-000023e7  USBIEPSIZXY_4                          
-000023ef  USBIEPSIZXY_5                          
-000023f7  USBIEPSIZXY_6                          
-000023ff  USBIEPSIZXY_7                          
-0000093e  USBIFG                                 
-00000900  USBKEYID                               
-00000901  USBKEYID_H                             
-00000900  USBKEYID_L                             
-00000936  USBMAINT                               
-00000937  USBMAINT_H                             
-00000936  USBMAINT_L                             
-00002370  USBOEP0BUF                             
-00002389  USBOEPBBAX_1                           
-00002391  USBOEPBBAX_2                           
-00002399  USBOEPBBAX_3                           
-000023a1  USBOEPBBAX_4                           
-000023a9  USBOEPBBAX_5                           
-000023b1  USBOEPBBAX_6                           
-000023b9  USBOEPBBAX_7                           
-0000238d  USBOEPBBAY_1                           
-00002395  USBOEPBBAY_2                           
-0000239d  USBOEPBBAY_3                           
-000023a5  USBOEPBBAY_4                           
-000023ad  USBOEPBBAY_5                           
-000023b5  USBOEPBBAY_6                           
-000023bd  USBOEPBBAY_7                           
-0000238a  USBOEPBCTX_1                           
-00002392  USBOEPBCTX_2                           
-0000239a  USBOEPBCTX_3                           
-000023a2  USBOEPBCTX_4                           
-000023aa  USBOEPBCTX_5                           
-000023b2  USBOEPBCTX_6                           
-000023ba  USBOEPBCTX_7                           
-0000238e  USBOEPBCTY_1                           
-00002396  USBOEPBCTY_2                           
-0000239e  USBOEPBCTY_3                           
-000023a6  USBOEPBCTY_4                           
-000023ae  USBOEPBCTY_5                           
-000023b6  USBOEPBCTY_6                           
-000023be  USBOEPBCTY_7                           
-00000922  USBOEPCNF_0                            
-00002388  USBOEPCNF_1                            
-00002390  USBOEPCNF_2                            
-00002398  USBOEPCNF_3                            
-000023a0  USBOEPCNF_4                            
-000023a8  USBOEPCNF_5                            
-000023b0  USBOEPCNF_6                            
-000023b8  USBOEPCNF_7                            
-00000923  USBOEPCNT_0                            
-0000092f  USBOEPIE                               
-00000931  USBOEPIFG                              
-0000238f  USBOEPSIZXY_1                          
-00002397  USBOEPSIZXY_2                          
-0000239f  USBOEPSIZXY_3                          
-000023a7  USBOEPSIZXY_4                          
-000023af  USBOEPSIZXY_5                          
-000023b7  USBOEPSIZXY_6                          
-000023bf  USBOEPSIZXY_7                          
-00000904  USBPHYCTL                              
-00000905  USBPHYCTL_H                            
-00000904  USBPHYCTL_L                            
-00000910  USBPLLCTL                              
-00000911  USBPLLCTL_H                            
-00000910  USBPLLCTL_L                            
-00000912  USBPLLDIVB                             
-00000913  USBPLLDIVB_H                           
-00000912  USBPLLDIVB_L                           
-00000914  USBPLLIR                               
-00000915  USBPLLIR_H                             
-00000914  USBPLLIR_L                             
-00000908  USBPWRCTL                              
-00000909  USBPWRCTL_H                            
-00000908  USBPWRCTL_L                            
-00001c00  USBSTABUFF                             
-00002380  USBSUBLK                               
-0000236f  USBTOPBUFF                             
-00000938  USBTSREG                               
-00000939  USBTSREG_H                             
-00000938  USBTSREG_L                             
-00000932  USBVECINT                              
-00000933  USBVECINT_H                            
-00000932  USBVECINT_L                            
-00010b80  USCI_A_UART_enable                     
-00010230  USCI_A_UART_init                       
-00010b86  USCI_B_SPI_enable                      
-00010784  USCI_B_SPI_initMaster                  
-00010b78  USCI_B_SPI_receiveData                 
-00010b64  USCI_B_SPI_transmitData                
+00010ca0  UCS_getSMCLK                           
+00010426  UCS_initClockSignal                    
+00010344  UCS_initFLL                            
+00010b00  UCS_initFLLSettle                      
+00010d1e  USCI_B_SPI_enable                      
+0001089c  USCI_B_SPI_initMaster                  
+00010d16  USCI_B_SPI_receiveData                 
+00010d02  USCI_B_SPI_transmitData                
 0000015c  WDTCTL                                 
 0000015d  WDTCTL_H                               
 0000015c  WDTCTL_L                               
-00010ad2  WDT_A_hold                             
-00004400  __STACK_END                            
+00010c48  WDT_A_hold                             
+00006400  __STACK_END                            
 000000a0  __STACK_SIZE                           
-00004b66  __TI_CINIT_Base                        
-00004b76  __TI_CINIT_Limit                       
-00004b54  __TI_Handler_Table_Base                
-00004b60  __TI_Handler_Table_Limit               
-00004474  __TI_ISR_TRAP                          
-00010890  __TI_auto_init_nobinit_nopinit_hold_wdt
-000105cc  __TI_decompress_lzss                   
-00010b52  __TI_decompress_none                   
+00008754  __TI_CINIT_Base                        
+00008764  __TI_CINIT_Limit                       
+00008742  __TI_Handler_Table_Base                
+0000874e  __TI_Handler_Table_Limit               
+00008074  __TI_ISR_TRAP                          
+000109a8  __TI_auto_init_nobinit_nopinit_hold_wdt
+000106e8  __TI_decompress_lzss                   
+00010ce4  __TI_decompress_none                   
+0000ffca  __TI_int37                             
+0000ffcc  __TI_int38                             
+0000ffce  __TI_int39                             
+0000ffd0  __TI_int40                             
 0000ffd2  __TI_int41                             
 0000ffd4  __TI_int42                             
 0000ffd6  __TI_int43                             
@@ -1132,19 +1193,26 @@ address   name
 ffffffff  __TI_pprof_out_hndl                    
 ffffffff  __TI_prof_data_size                    
 ffffffff  __TI_prof_data_start                   
-00010a8e  __TI_zero_init_nomemset                
+00010be0  __TI_zero_init_nomemset                
 ffffffff  __c_args__                             
-00010838  __mspabi_divul                         
-00010838  __mspabi_remul                         
-00010b6e  __mspabi_slli                          
-00004458  _c_int00_noargs                        
+00010b62  __mspabi_divi                          
+00010a48  __mspabi_divli                         
+00010cba  __mspabi_divu                          
+00010950  __mspabi_divul                         
+00010c04  __mspabi_mpyl_f5hw                     
+00010b62  __mspabi_remi                          
+00010a48  __mspabi_remli                         
+00010cba  __mspabi_remu                          
+00010950  __mspabi_remul                         
+00010d0c  __mspabi_slli                          
+00008058  _c_int00_noargs                        
 0000fffe  _reset_vector                          
-00004360  _stack                                 
-00010b96  _system_post_cinit                     
-00010b92  _system_pre_init                       
-00010b8c  abort                                  
-000103ac  main                                   
-00010b3e  memcpy                                 
+00006360  _stack                                 
+00010d2e  _system_post_cinit                     
+00010d2a  _system_pre_init                       
+00010d24  abort                                  
+000104cc  main                                   
+00010cd0  memcpy                                 
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -1281,18 +1349,18 @@ address   name
 000001c2  PMAPCTL                                
 000001c2  PMAPCTL_L                              
 000001c3  PMAPCTL_H                              
-000001e0  P4MAP01                                
-000001e0  P4MAP01_L                              
-000001e1  P4MAP01_H                              
-000001e2  P4MAP23                                
-000001e2  P4MAP23_L                              
-000001e3  P4MAP23_H                              
-000001e4  P4MAP45                                
-000001e4  P4MAP45_L                              
-000001e5  P4MAP45_H                              
-000001e6  P4MAP67                                
-000001e6  P4MAP67_L                              
-000001e7  P4MAP67_H                              
+000001d0  P2MAP01                                
+000001d0  P2MAP01_L                              
+000001d1  P2MAP01_H                              
+000001d2  P2MAP23                                
+000001d2  P2MAP23_L                              
+000001d3  P2MAP23_H                              
+000001d4  P2MAP45                                
+000001d4  P2MAP45_L                              
+000001d5  P2MAP45_H                              
+000001d6  P2MAP67                                
+000001d6  P2MAP67_L                              
+000001d7  P2MAP67_H                              
 00000200  PAIN                                   
 00000200  PAIN_L                                 
 00000201  PAIN_H                                 
@@ -1340,6 +1408,17 @@ address   name
 0000022a  PBSEL                                  
 0000022a  PBSEL_L                                
 0000022b  PBSEL_H                                
+0000022e  P3IV                                   
+00000238  PBIES                                  
+00000238  PBIES_L                                
+00000239  PBIES_H                                
+0000023a  PBIE                                   
+0000023a  PBIE_L                                 
+0000023b  PBIE_H                                 
+0000023c  PBIFG                                  
+0000023c  PBIFG_L                                
+0000023d  PBIFG_H                                
+0000023e  P4IV                                   
 00000240  PCIN                                   
 00000240  PCIN_L                                 
 00000241  PCIN_H                                 
@@ -1376,6 +1455,24 @@ address   name
 0000026a  PDSEL                                  
 0000026a  PDSEL_L                                
 0000026b  PDSEL_H                                
+00000280  PEIN                                   
+00000280  PEIN_L                                 
+00000281  PEIN_H                                 
+00000282  PEOUT                                  
+00000282  PEOUT_L                                
+00000283  PEOUT_H                                
+00000284  PEDIR                                  
+00000284  PEDIR_L                                
+00000285  PEDIR_H                                
+00000286  PEREN                                  
+00000286  PEREN_L                                
+00000287  PEREN_H                                
+00000288  PEDS                                   
+00000288  PEDS_L                                 
+00000289  PEDS_H                                 
+0000028a  PESEL                                  
+0000028a  PESEL_L                                
+0000028b  PESEL_H                                
 00000320  PJIN                                   
 00000320  PJIN_L                                 
 00000321  PJIN_H                                 
@@ -1443,6 +1540,24 @@ address   name
 00000416  TA2CCR2                                
 00000420  TA2EX0                                 
 0000042e  TA2IV                                  
+00000480  BAKMEM0                                
+00000480  BAKMEM0_L                              
+00000481  BAKMEM0_H                              
+00000482  BAKMEM1                                
+00000482  BAKMEM1_L                              
+00000483  BAKMEM1_H                              
+00000484  BAKMEM2                                
+00000484  BAKMEM2_L                              
+00000485  BAKMEM2_H                              
+00000486  BAKMEM3                                
+00000486  BAKMEM3_L                              
+00000487  BAKMEM3_H                              
+0000049c  BAKCTL                                 
+0000049c  BAKCTL_L                               
+0000049d  BAKCTL_H                               
+0000049e  BAKCHCTL                               
+0000049e  BAKCHCTL_L                             
+0000049f  BAKCHCTL_H                             
 000004a0  RTCCTL01                               
 000004a0  RTCCTL01_L                             
 000004a1  RTCCTL01_H                             
@@ -1477,6 +1592,8 @@ address   name
 000004ba  RTCADOWDAY                             
 000004ba  RTCADOWDAY_L                           
 000004bb  RTCADOWDAY_H                           
+000004bc  BIN2BCD                                
+000004be  BCD2BIN                                
 000004c0  MPY                                    
 000004c0  MPY_L                                  
 000004c1  MPY_H                                  
@@ -1576,6 +1693,30 @@ address   name
 00000536  DMA2DAL                                
 00000538  DMA2DAH                                
 0000053a  DMA2SZ                                 
+00000540  DMA3CTL                                
+00000542  DMA3SA                                 
+00000542  DMA3SAL                                
+00000544  DMA3SAH                                
+00000546  DMA3DA                                 
+00000546  DMA3DAL                                
+00000548  DMA3DAH                                
+0000054a  DMA3SZ                                 
+00000550  DMA4CTL                                
+00000552  DMA4SA                                 
+00000552  DMA4SAL                                
+00000554  DMA4SAH                                
+00000556  DMA4DA                                 
+00000556  DMA4DAL                                
+00000558  DMA4DAH                                
+0000055a  DMA4SZ                                 
+00000560  DMA5CTL                                
+00000562  DMA5SA                                 
+00000562  DMA5SAL                                
+00000564  DMA5SAH                                
+00000566  DMA5DA                                 
+00000566  DMA5DAL                                
+00000568  DMA5DAH                                
+0000056a  DMA5SZ                                 
 000005c0  UCA0CTLW0                              
 000005c0  UCA0CTLW0_L                            
 000005c1  UCA0CTLW0_H                            
@@ -1732,6 +1873,17 @@ address   name
 0000073e  ADC12MEM15                             
 0000073e  ADC12MEM15_L                           
 0000073f  ADC12MEM15_H                           
+00000780  DAC12_0CTL0                            
+00000782  DAC12_0CTL1                            
+00000784  DAC12_0DAT                             
+00000786  DAC12_0CALCTL                          
+00000788  DAC12_0CALDAT                          
+00000790  DAC12_1CTL0                            
+00000792  DAC12_1CTL1                            
+00000794  DAC12_1DAT                             
+00000796  DAC12_1CALCTL                          
+00000798  DAC12_1CALDAT                          
+0000079e  DAC12_IV                               
 000008c0  CBCTL0                                 
 000008c0  CBCTL0_L                               
 000008c1  CBCTL0_H                               
@@ -1748,149 +1900,107 @@ address   name
 000008cc  CBINT_L                                
 000008cd  CBINT_H                                
 000008ce  CBIV                                   
-00000900  USBKEYID                               
-00000900  USBKEYID_L                             
-00000901  USBKEYID_H                             
-00000902  USBCNF                                 
-00000902  USBCNF_L                               
-00000903  USBCNF_H                               
-00000904  USBPHYCTL                              
-00000904  USBPHYCTL_L                            
-00000905  USBPHYCTL_H                            
-00000908  USBPWRCTL                              
-00000908  USBPWRCTL_L                            
-00000909  USBPWRCTL_H                            
-00000910  USBPLLCTL                              
-00000910  USBPLLCTL_L                            
-00000911  USBPLLCTL_H                            
-00000912  USBPLLDIVB                             
-00000912  USBPLLDIVB_L                           
-00000913  USBPLLDIVB_H                           
-00000914  USBPLLIR                               
-00000914  USBPLLIR_L                             
-00000915  USBPLLIR_H                             
-00000920  USBIEPCNF_0                            
-00000921  USBIEPCNT_0                            
-00000922  USBOEPCNF_0                            
-00000923  USBOEPCNT_0                            
-0000092e  USBIEPIE                               
-0000092f  USBOEPIE                               
-00000930  USBIEPIFG                              
-00000931  USBOEPIFG                              
-00000932  USBVECINT                              
-00000932  USBVECINT_L                            
-00000933  USBVECINT_H                            
-00000936  USBMAINT                               
-00000936  USBMAINT_L                             
-00000937  USBMAINT_H                             
-00000938  USBTSREG                               
-00000938  USBTSREG_L                             
-00000939  USBTSREG_H                             
-0000093a  USBFN                                  
-0000093a  USBFN_L                                
-0000093b  USBFN_H                                
-0000093c  USBCTL                                 
-0000093d  USBIE                                  
-0000093e  USBIFG                                 
-0000093f  USBFUNADR                              
-00001c00  USBSTABUFF                             
-0000236f  USBTOPBUFF                             
-00002370  USBOEP0BUF                             
-00002378  USBIEP0BUF                             
-00002380  USBSUBLK                               
-00002388  USBOEPCNF_1                            
-00002389  USBOEPBBAX_1                           
-0000238a  USBOEPBCTX_1                           
-0000238d  USBOEPBBAY_1                           
-0000238e  USBOEPBCTY_1                           
-0000238f  USBOEPSIZXY_1                          
-00002390  USBOEPCNF_2                            
-00002391  USBOEPBBAX_2                           
-00002392  USBOEPBCTX_2                           
-00002395  USBOEPBBAY_2                           
-00002396  USBOEPBCTY_2                           
-00002397  USBOEPSIZXY_2                          
-00002398  USBOEPCNF_3                            
-00002399  USBOEPBBAX_3                           
-0000239a  USBOEPBCTX_3                           
-0000239d  USBOEPBBAY_3                           
-0000239e  USBOEPBCTY_3                           
-0000239f  USBOEPSIZXY_3                          
-000023a0  USBOEPCNF_4                            
-000023a1  USBOEPBBAX_4                           
-000023a2  USBOEPBCTX_4                           
-000023a5  USBOEPBBAY_4                           
-000023a6  USBOEPBCTY_4                           
-000023a7  USBOEPSIZXY_4                          
-000023a8  USBOEPCNF_5                            
-000023a9  USBOEPBBAX_5                           
-000023aa  USBOEPBCTX_5                           
-000023ad  USBOEPBBAY_5                           
-000023ae  USBOEPBCTY_5                           
-000023af  USBOEPSIZXY_5                          
-000023b0  USBOEPCNF_6                            
-000023b1  USBOEPBBAX_6                           
-000023b2  USBOEPBCTX_6                           
-000023b5  USBOEPBBAY_6                           
-000023b6  USBOEPBCTY_6                           
-000023b7  USBOEPSIZXY_6                          
-000023b8  USBOEPCNF_7                            
-000023b9  USBOEPBBAX_7                           
-000023ba  USBOEPBCTX_7                           
-000023bd  USBOEPBBAY_7                           
-000023be  USBOEPBCTY_7                           
-000023bf  USBOEPSIZXY_7                          
-000023c8  USBIEPCNF_1                            
-000023c9  USBIEPBBAX_1                           
-000023ca  USBIEPBCTX_1                           
-000023cd  USBIEPBBAY_1                           
-000023ce  USBIEPBCTY_1                           
-000023cf  USBIEPSIZXY_1                          
-000023d0  USBIEPCNF_2                            
-000023d1  USBIEPBBAX_2                           
-000023d2  USBIEPBCTX_2                           
-000023d5  USBIEPBBAY_2                           
-000023d6  USBIEPBCTY_2                           
-000023d7  USBIEPSIZXY_2                          
-000023d8  USBIEPCNF_3                            
-000023d9  USBIEPBBAX_3                           
-000023da  USBIEPBCTX_3                           
-000023dd  USBIEPBBAY_3                           
-000023de  USBIEPBCTY_3                           
-000023df  USBIEPSIZXY_3                          
-000023e0  USBIEPCNF_4                            
-000023e1  USBIEPBBAX_4                           
-000023e2  USBIEPBCTX_4                           
-000023e5  USBIEPBBAY_4                           
-000023e6  USBIEPBCTY_4                           
-000023e7  USBIEPSIZXY_4                          
-000023e8  USBIEPCNF_5                            
-000023e9  USBIEPBBAX_5                           
-000023ea  USBIEPBCTX_5                           
-000023ed  USBIEPBBAY_5                           
-000023ee  USBIEPBCTY_5                           
-000023ef  USBIEPSIZXY_5                          
-000023f0  USBIEPCNF_6                            
-000023f1  USBIEPBBAX_6                           
-000023f2  USBIEPBCTX_6                           
-000023f5  USBIEPBBAY_6                           
-000023f6  USBIEPBCTY_6                           
-000023f7  USBIEPSIZXY_6                          
-000023f8  USBIEPCNF_7                            
-000023f9  USBIEPBBAX_7                           
-000023fa  USBIEPBCTX_7                           
-000023fd  USBIEPBBAY_7                           
-000023fe  USBIEPBCTY_7                           
-000023ff  USBIEPSIZXY_7                          
-00004360  _stack                                 
-00004400  GPS_RX_interruptHandler                
-00004400  __STACK_END                            
-00004458  _c_int00_noargs                        
-00004474  __TI_ISR_TRAP                          
-00004b54  __TI_Handler_Table_Base                
-00004b60  __TI_Handler_Table_Limit               
-00004b66  __TI_CINIT_Base                        
-00004b76  __TI_CINIT_Limit                       
+00000900  LDOKEYPID                              
+00000900  LDOKEYPID_L                            
+00000901  LDOKEYPID_H                            
+00000904  PUCTL                                  
+00000904  PUCTL_L                                
+00000905  PUCTL_H                                
+00000908  LDOPWRCTL                              
+00000908  LDOPWRCTL_L                            
+00000909  LDOPWRCTL_H                            
+00000a00  LCDBCTL0                               
+00000a00  LCDBCTL0_L                             
+00000a01  LCDBCTL0_H                             
+00000a02  LCDBCTL1                               
+00000a02  LCDBCTL1_L                             
+00000a03  LCDBCTL1_H                             
+00000a04  LCDBBLKCTL                             
+00000a04  LCDBBLKCTL_L                           
+00000a05  LCDBBLKCTL_H                           
+00000a06  LCDBMEMCTL                             
+00000a06  LCDBMEMCTL_L                           
+00000a07  LCDBMEMCTL_H                           
+00000a08  LCDBVCTL                               
+00000a08  LCDBVCTL_L                             
+00000a09  LCDBVCTL_H                             
+00000a0a  LCDBPCTL0                              
+00000a0a  LCDBPCTL0_L                            
+00000a0b  LCDBPCTL0_H                            
+00000a0c  LCDBPCTL1                              
+00000a0c  LCDBPCTL1_L                            
+00000a0d  LCDBPCTL1_H                            
+00000a0e  LCDBPCTL2                              
+00000a0e  LCDBPCTL2_L                            
+00000a0f  LCDBPCTL2_H                            
+00000a10  LCDBPCTL3                              
+00000a10  LCDBPCTL3_L                            
+00000a11  LCDBPCTL3_H                            
+00000a12  LCDBCPCTL                              
+00000a12  LCDBCPCTL_L                            
+00000a13  LCDBCPCTL_H                            
+00000a1e  LCDBIV                                 
+00000a20  LCDM1                                  
+00000a21  LCDM2                                  
+00000a22  LCDM3                                  
+00000a23  LCDM4                                  
+00000a24  LCDM5                                  
+00000a25  LCDM6                                  
+00000a26  LCDM7                                  
+00000a27  LCDM8                                  
+00000a28  LCDM9                                  
+00000a29  LCDM10                                 
+00000a2a  LCDM11                                 
+00000a2b  LCDM12                                 
+00000a2c  LCDM13                                 
+00000a2d  LCDM14                                 
+00000a2e  LCDM15                                 
+00000a2f  LCDM16                                 
+00000a30  LCDM17                                 
+00000a31  LCDM18                                 
+00000a32  LCDM19                                 
+00000a33  LCDM20                                 
+00000a34  LCDM21                                 
+00000a35  LCDM22                                 
+00000a36  LCDM23                                 
+00000a37  LCDM24                                 
+00000a40  LCDBM1                                 
+00000a41  LCDBM2                                 
+00000a42  LCDBM3                                 
+00000a43  LCDBM4                                 
+00000a44  LCDBM5                                 
+00000a45  LCDBM6                                 
+00000a46  LCDBM7                                 
+00000a47  LCDBM8                                 
+00000a48  LCDBM9                                 
+00000a49  LCDBM10                                
+00000a4a  LCDBM11                                
+00000a4b  LCDBM12                                
+00000a4c  LCDBM13                                
+00000a4d  LCDBM14                                
+00000a4e  LCDBM15                                
+00000a4f  LCDBM16                                
+00000a50  LCDBM17                                
+00000a51  LCDBM18                                
+00000a52  LCDBM19                                
+00000a53  LCDBM20                                
+00000a54  LCDBM21                                
+00000a55  LCDBM22                                
+00000a56  LCDBM23                                
+00000a57  LCDBM24                                
+00006360  _stack                                 
+00006400  __STACK_END                            
+00008000  GPS_RX_interruptHandler                
+00008058  _c_int00_noargs                        
+00008074  __TI_ISR_TRAP                          
+00008742  __TI_Handler_Table_Base                
+0000874e  __TI_Handler_Table_Limit               
+00008754  __TI_CINIT_Base                        
+00008764  __TI_CINIT_Limit                       
+0000ffca  __TI_int37                             
+0000ffcc  __TI_int38                             
+0000ffce  __TI_int39                             
+0000ffd0  __TI_int40                             
 0000ffd2  __TI_int41                             
 0000ffd4  __TI_int42                             
 0000ffd6  __TI_int43                             
@@ -1915,44 +2025,49 @@ address   name
 0000fffc  __TI_int62                             
 0000fffe  _reset_vector                          
 00010000  LCD_setAddrWindow                      
-0001014e  UCS_initFLL                            
-00010230  USCI_A_UART_init                       
-00010306  UCS_initClockSignal                    
-000103ac  main                                   
-000104c4  LCD_Clear                              
-0001054a  LCD_SetPoint                           
-000105cc  __TI_decompress_lzss                   
-000106b4  Timer_A_outputPWM                      
-00010726  PutChar                                
-00010784  USCI_B_SPI_initMaster                  
-00010838  __mspabi_divul                         
-00010838  __mspabi_remul                         
-00010890  __TI_auto_init_nobinit_nopinit_hold_wdt
-000108e4  LCD_Init                               
-00010924  GPS_Init                               
-00010962  LCD_Text                               
-000109da  UCS_initFLLSettle                      
-00010a10  GetASCIICode                           
-00010a66  GPIO_setAsOutputPin                    
-00010a8e  __TI_zero_init_nomemset                
-00010ad2  WDT_A_hold                             
-00010af2  GPIO_setOutputHighOnPin                
-00010b0e  GPIO_setOutputLowOnPin                 
-00010b2a  GPS_enable                             
-00010b3e  memcpy                                 
-00010b52  __TI_decompress_none                   
-00010b64  USCI_B_SPI_transmitData                
-00010b6e  __mspabi_slli                          
-00010b78  USCI_B_SPI_receiveData                 
-00010b80  USCI_A_UART_enable                     
-00010b86  USCI_B_SPI_enable                      
-00010b8c  C$$EXIT                                
-00010b8c  abort                                  
-00010b92  _system_pre_init                       
-00010b96  _system_post_cinit                     
+00010344  UCS_initFLL                            
+00010426  UCS_initClockSignal                    
+000104cc  main                                   
+000105e8  LCD_Clear                              
+0001066a  LCD_SetPoint                           
+000106e8  __TI_decompress_lzss                   
+0001075e  Timer_A_outputPWM                      
+0001083e  PutChar                                
+0001089c  USCI_B_SPI_initMaster                  
+00010950  __mspabi_divul                         
+00010950  __mspabi_remul                         
+000109a8  __TI_auto_init_nobinit_nopinit_hold_wdt
+000109fc  LCD_Init                               
+00010a48  __mspabi_divli                         
+00010a48  __mspabi_remli                         
+00010a88  LCD_Text                               
+00010b00  UCS_initFLLSettle                      
+00010b36  GetASCIICode                           
+00010b62  __mspabi_divi                          
+00010b62  __mspabi_remi                          
+00010bb8  GPIO_setAsOutputPin                    
+00010be0  __TI_zero_init_nomemset                
+00010c04  __mspabi_mpyl_f5hw                     
+00010c48  WDT_A_hold                             
+00010c68  GPIO_setOutputHighOnPin                
+00010c84  GPIO_setOutputLowOnPin                 
+00010ca0  UCS_getSMCLK                           
+00010cba  __mspabi_divu                          
+00010cba  __mspabi_remu                          
+00010cd0  memcpy                                 
+00010ce4  __TI_decompress_none                   
+00010cf6  Timer_A_startCounter                   
+00010d02  USCI_B_SPI_transmitData                
+00010d0c  __mspabi_slli                          
+00010d16  USCI_B_SPI_receiveData                 
+00010d1e  USCI_B_SPI_enable                      
+00010d24  C$$EXIT                                
+00010d24  abort                                  
+00010d2a  _system_pre_init                       
+00010d2e  _system_post_cinit                     
 ffffffff  __TI_pprof_out_hndl                    
 ffffffff  __TI_prof_data_size                    
 ffffffff  __TI_prof_data_start                   
 ffffffff  __c_args__                             
 
-[803 symbols]
+[850 symbols]

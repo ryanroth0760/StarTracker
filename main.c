@@ -14,14 +14,17 @@ int main(void) {
     UCS_initClockSignal(UCS_MCLK, UCS_DCOCLK_SELECT, UCS_CLOCK_DIVIDER_1);
     UCS_initClockSignal(UCS_ACLK, UCS_VLOCLK_SELECT, UCS_CLOCK_DIVIDER_1); //set ACLK for 10kHz
 
+    volatile uint32_t hialice = UCS_getSMCLK();
+
+
     LCD_Init();
     LCD_Clear(ST77XX_RED);
-    LCD_Text(1, 1, "April 8, 2022.", ST77XX_BLUE);
-    LCD_Text(1, 20, "5:20pm",ST77XX_BLUE);
-    LCD_Text(1, 30, "Hello, Blake", ST77XX_BLUE);
+    LCD_Text(1, 1, "April 12, 2022.", ST77XX_BLUE);
+    LCD_Text(1, 20, "5:07pm",ST77XX_BLUE);
+    LCD_Text(1, 30, "Hi Mama", ST77XX_BLUE);
 
-    GPS_Init();
-    GPS_enable();
+    //GPS_Init();
+    //GPS_enable();
 
     //Write code to read from GPS and display results on LCD
 

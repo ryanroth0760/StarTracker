@@ -30,7 +30,7 @@ static Timer_A_outputPWMParam LCD_PWM_CONFIG = {
                                                 TIMER_A_CLOCKSOURCE_DIVIDER_1,
                                                 65535,
                                                 LCD_PWM_REG,
-                                                TIMER_A_OUTPUTMODE_RESET_SET,
+                                                TIMER_A_OUTPUTMODE_OUTBITVALUE,
                                                 30000 //start backlight around middle
 };
 

@@ -202,9 +202,9 @@ void I2C_Init(void) {
     PMAP_initPortsParam initPmapParams;
     initPmapParams.portMapping = portmapping;
     initPmapParams.PxMAPy = (uint8_t*) &P2MAP01;
-    initPmapParam.numberOfPorts = 1;
-    initPmapParam.portMapReconfigure = PMAP_ENABLE_RECONFIGURATION;
-    PMAP_initPorts(PMAP_CTRL_BASE, &initPmapParam);
+    initPmapParams.numberOfPorts = 1;
+    initPmapParams.portMapReconfigure = PMAP_ENABLE_RECONFIGURATION;
+    PMAP_initPorts(PMAP_CTRL_BASE, &initPmapParams);
 
     GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN3); //configure pins for interrupts, 2.3 is INT1, 2.4 is INT2
     GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN4);

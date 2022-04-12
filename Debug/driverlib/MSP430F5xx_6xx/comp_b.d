@@ -3,7 +3,7 @@
 driverlib/MSP430F5xx_6xx/comp_b.obj: ../driverlib/MSP430F5xx_6xx/comp_b.c
 driverlib/MSP430F5xx_6xx/comp_b.obj: ../driverlib/MSP430F5xx_6xx/inc/hw_memmap.h
 driverlib/MSP430F5xx_6xx/comp_b.obj: C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430.h
-driverlib/MSP430F5xx_6xx/comp_b.obj: C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430f5529.h
+driverlib/MSP430F5xx_6xx/comp_b.obj: C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430f6438.h
 driverlib/MSP430F5xx_6xx/comp_b.obj: C:/ti/ccs1020/ccs/ccs_base/msp430/include/in430.h
 driverlib/MSP430F5xx_6xx/comp_b.obj: C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include/intrinsics.h
 driverlib/MSP430F5xx_6xx/comp_b.obj: C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include/intrinsics_legacy_undefs.h
@@ -25,7 +25,7 @@ driverlib/MSP430F5xx_6xx/comp_b.obj: C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp
 ../driverlib/MSP430F5xx_6xx/comp_b.c: 
 ../driverlib/MSP430F5xx_6xx/inc/hw_memmap.h: 
 C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430.h: 
-C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430f5529.h: 
+C:/ti/ccs1020/ccs/ccs_base/msp430/include/msp430f6438.h: 
 C:/ti/ccs1020/ccs/ccs_base/msp430/include/in430.h: 
 C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include/intrinsics.h: 
 C:/ti/ccs1020/ccs/tools/compiler/ti-cgt-msp430_20.2.2.LTS/include/intrinsics_legacy_undefs.h: 
