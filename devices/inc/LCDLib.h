@@ -302,6 +302,19 @@ inline void PutChar( uint16_t Xpos, uint16_t Ypos, uint8_t ASCI, uint16_t charCo
 *******************************************************************************/
 void LCD_Text(uint16_t Xpos, uint16_t Ypos, uint8_t *str,uint16_t Color);
 
+/******************************************************************************
+* Function Name  : LCD_WriteInt
+* Description    : Displays the string
+* Input          : - Xpos: Horizontal coordinate
+*                  - Ypos: Vertical coordinate
+*                  - val: Displayed string
+*                  - Color: Character color
+* Output         : None
+* Return         : None
+* Attention      : None
+*******************************************************************************/
+void LCD_WriteInt(uint16_t Xpos, uint16_t Ypos, uint32_t val, uint16_t Color);
+
 /*******************************************************************************
 * Function Name  : LCD_Write_Data_Only
 * Description    : Data writing to the LCD controller

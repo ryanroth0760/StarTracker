@@ -2,6 +2,9 @@
 #include "msp430.h"
 #include "GPS.h"
 #include "LCDLib.h"
+#include "UI.h"
+#include "bmx160_msp430.h"
+#include "Stepper.h"
 
 int main(void) {
 
@@ -17,11 +20,17 @@ int main(void) {
     volatile uint32_t hialice = UCS_getSMCLK();
 
 
-    LCD_Init();
+    UI_Init();
+    //BMI160_Init();
     LCD_Clear(ST77XX_RED);
     LCD_Text(1, 1, "April 12, 2022.", ST77XX_BLUE);
-    LCD_Text(1, 20, "5:07pm",ST77XX_BLUE);
-    LCD_Text(1, 30, "Hi Mama", ST77XX_BLUE);
+    LCD_Text(1, 30, "Hi", ST77XX_BLUE);
+
+    __enable_interrupt();
+
+    MoveSteppersManual();
+
+    //AlignSteppers();
 
     //GPS_Init();
     //GPS_enable();

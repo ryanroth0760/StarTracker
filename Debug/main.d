@@ -65,6 +65,10 @@ main.obj: C:/Users/troth/workspace_v10/StarTracker/devices/inc/GPS.h
 main.obj: C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/driverlib.h
 main.obj: C:/Users/troth/workspace_v10/StarTracker/devices/inc/LCDLib.h
 main.obj: C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/driverlib.h
+main.obj: C:/Users/troth/workspace_v10/StarTracker/devices/inc/UI.h
+main.obj: C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/driverlib.h
+main.obj: C:/Users/troth/workspace_v10/StarTracker/devices/inc/bmx160_msp430.h
+main.obj: C:/Users/troth/workspace_v10/StarTracker/devices/inc/Stepper.h
 
 ../main.c: 
 C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/driverlib.h: 
@@ -131,3 +135,7 @@ C:/Users/troth/workspace_v10/StarTracker/devices/inc/GPS.h:
 C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/driverlib.h: 
 C:/Users/troth/workspace_v10/StarTracker/devices/inc/LCDLib.h: 
 C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/driverlib.h: 
+C:/Users/troth/workspace_v10/StarTracker/devices/inc/UI.h: 
+C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/driverlib.h: 
+C:/Users/troth/workspace_v10/StarTracker/devices/inc/bmx160_msp430.h: 
+C:/Users/troth/workspace_v10/StarTracker/devices/inc/Stepper.h: 

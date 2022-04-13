@@ -30,7 +30,7 @@ static Timer_A_outputPWMParam LCD_PWM_CONFIG = {
                                                 TIMER_A_CLOCKSOURCE_DIVIDER_1,
                                                 65535,
                                                 LCD_PWM_REG,
-                                                TIMER_A_OUTPUTMODE_OUTBITVALUE,
+                                                TIMER_A_OUTPUTMODE_TOGGLE,
                                                 30000 //start backlight around middle
 };
 
@@ -682,33 +682,89 @@ void LCD_Init(void)
     LCD_Clear(LCD_BLACK);
 
     //set PWM for LCD backlight
-    Timer_A_outputPWM(LCD_PWM_TIMER, &LCD_PWM_CONFIG);
+    //Timer_A_outputPWM(LCD_PWM_TIMER, &LCD_PWM_CONFIG);
+    Timer_B_initCompareModeParam compareParam = {
+                                                 TIMER_B_CAPTURECOMPARE_REGISTER_1,
+                                                 TIMER_B_CAPTURECOMPARE_INTERRUPT_DISABLE,
+                                                 TIMER_B_OUTPUTMODE_RESET_SET,
+                                                 10000
+    };
+
+    //OUTMOD_0 + OUT
+    //OUTMOD_5 + OUT
+
+    Timer_B_initContinuousModeParam continuousParam = {
+                                                       TIMER_B_CLOCKSOURCE_SMCLK,
+                                                       TIMER_B_CLOCKSOURCE_DIVIDER_1,
+                                                       TIMER_B_TBIE_INTERRUPT_DISABLE,
+                                                       TIMER_B_DO_CLEAR,
+                                                       true
+    };
+    Timer_B_initContinuousMode(TIMER_B0_BASE, &continuousParam);
+    Timer_B_initCompareMode(TIMER_B0_BASE, &compareParam);
+    Timer_B_setCompareValue(TIMER_B0_BASE, TIMER_B_CAPTURECOMPARE_REGISTER_0, 0xFFFF);
+
 #ifdef __MSP430F5529__
     P1DIR |= BIT2;
     P1SEL |= BIT2;
 #elif defined __MSP430F6438__
-    Timer_A_startCounter(LCD_PWM_TIMER, TIMER_A_CONTINUOUS_MODE); //use continuous mode to use ccr0
-    P3DIR |= BIT1;
-    P3SEL |= BIT1;
+
+    //Timer_A_startCounter(LCD_PWM_TIMER, TIMER_A_CONTINUOUS_MODE); //use continuous mode to use ccr0
+    P4DIR |= BIT1;
+    P4SEL |= BIT1;
 #endif
 }
+
+#pragma vector=TIMER1_A1_VECTOR
+__interrupt void TIMERA1_OVF(void) {
+    if (TA1IV & TA1IV_TAIFG) {//check for overflow flag
+        Timer_A_setOutputForOutputModeOutBitValue(TIMER_A1_BASE, TIMER_A_CAPTURECOMPARE_REGISTER_0,
+                                                  TIMER_A_OUTPUTMODE_OUTBITVALUE_HIGH);
+
+    }
+}
+
+void LCD_WriteInt(uint16_t Xpos, uint16_t Ypos, uint32_t val, uint16_t Color) {
+    char num_str[16]; //create output array to write to LCD
+    uint8_t i = 0;
+    for (i = 0; i < 16; i++) {
+        num_str[i] = 0;
+    }
+
+    i = 0;
+    while(val) {
+        //generate integer part of number
+        num_str[i] = (val % 10) + 0x30;
+        val /= 10;
+        i++;
+    }
+    char temp;
+    for (uint8_t k = 0; k < (i+1)/2; k++) { //reverse string
+        temp = num_str[k];
+        num_str[k] = num_str[i-1-k];
+        num_str[i-1-k] = temp;
+    }
+
+    LCD_Text(Xpos, Ypos, num_str, Color);
+}
+
 
 /*
  * Increments duty cycle value in timer by defined inc dec value
  */
 inline void LCD_incBacklight(void) {
-    uint16_t currDutyCycle = Timer_A_getCaptureCompareCount(LCD_PWM_TIMER, LCD_PWM_REG);
+    uint16_t currDutyCycle = TB0CCR1; //Timer_A_getCaptureCompareCount(LCD_PWM_TIMER, LCD_PWM_REG);
     currDutyCycle = (currDutyCycle + LCD_PWM_INCDEC) < currDutyCycle ? 0xFFFF : currDutyCycle + LCD_PWM_INCDEC;
-    Timer_A_setCompareValue(LCD_PWM_TIMER, LCD_PWM_REG, currDutyCycle);
+    TB0CCR1 = currDutyCycle; //Timer_A_setCompareValue(LCD_PWM_TIMER, LCD_PWM_REG, currDutyCycle);
 }
 
 /*
  * Decrements duty cycle value in timer by defined inc dec value.
  */
 inline void LCD_decBacklight(void) {
-    uint16_t currDutyCycle = Timer_A_getCaptureCompareCount(LCD_PWM_TIMER, LCD_PWM_REG);
+    uint16_t currDutyCycle = TB0CCR1; //Timer_A_getCaptureCompareCount(LCD_PWM_TIMER, LCD_PWM_REG);
     currDutyCycle = (currDutyCycle - LCD_PWM_INCDEC) > currDutyCycle ? 0x0000 : currDutyCycle - LCD_PWM_INCDEC;
-    Timer_A_setCompareValue(LCD_PWM_TIMER, LCD_PWM_REG, currDutyCycle);
+    TB0CCR1 = currDutyCycle; //Timer_A_setCompareValue(LCD_PWM_TIMER, LCD_PWM_REG, currDutyCycle);
 }
 
 
