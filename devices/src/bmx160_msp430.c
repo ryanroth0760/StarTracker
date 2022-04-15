@@ -7,10 +7,13 @@
 #include "bmx160_msp430.h"
 #include "bmi160.h"
 #include "driverlib.h"
+#include "bmm150.h"
 
 /****** PRIVATE FUNCTION PROTOTYPES ******/
 
 struct bmi160_dev bmi160config;
+struct bmm150_dev bmm150config;
+struct bmm150_settings bmm150settg;
 
 int8_t bmi_i2c_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t len);
 int8_t bmi_i2c_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t len);
@@ -38,29 +41,72 @@ void BMI160_Init(void) {
     bmi160config.id = BMI160_I2C_ADDR; //FIXME: I2C address find on datasheet
     bmi160config.intf = BMI160_I2C_INTF;
 
-    int8_t result = bmi160_init(&bmi160config);
+    volatile int8_t result = bmi160_init(&bmi160config);
 
     /* Select the Output data rate, range of accelerometer sensor */
-    bmi160config.accel_cfg.odr = BMI160_ACCEL_ODR_1600HZ;
-    bmi160config.accel_cfg.range = BMI160_ACCEL_RANGE_16G;
-    bmi160config.accel_cfg.bw = BMI160_ACCEL_BW_NORMAL_AVG4;
+    bmi160config.accel_cfg.odr = BMI160_ACCEL_ODR_100HZ;
+    bmi160config.accel_cfg.range = BMI160_ACCEL_RANGE_2G;
+    bmi160config.accel_cfg.bw = BMI160_ACCEL_BW_OSR4_AVG1;
 
     /* Select the power mode of accelerometer sensor */
     bmi160config.accel_cfg.power = BMI160_ACCEL_NORMAL_MODE;
 
     /* Select the Output data rate, range of Gyroscope sensor */
-    bmi160config.gyro_cfg.odr = BMI160_GYRO_ODR_3200HZ;
+    bmi160config.gyro_cfg.odr = BMI160_GYRO_ODR_100HZ;
     bmi160config.gyro_cfg.range = BMI160_GYRO_RANGE_2000_DPS;
     bmi160config.gyro_cfg.bw = BMI160_GYRO_BW_NORMAL_MODE;
 
     /* Select the power mode of Gyroscope sensor */
     bmi160config.gyro_cfg.power = BMI160_GYRO_NORMAL_MODE;
 
+    uint8_t temp = (bmi160config.accel_cfg.bw << 4) | bmi160config.accel_cfg.odr;
+    bmi160_set_regs(BMI160_ACCEL_CONFIG_ADDR, &temp, 1, &bmi160config);
+    //uint8_t temp = (
+    bmi160_set_regs(BMI160_ACCEL_RANGE_ADDR, &bmi160config.accel_cfg.range, 1, &bmi160config);
+    temp = (bmi160config.gyro_cfg.bw << 4) | bmi160config.gyro_cfg.odr;
+    bmi160_set_regs(BMI160_GYRO_CONFIG_ADDR, &temp, 1, &bmi160config);
+    bmi160_set_regs(BMI160_GYRO_RANGE_ADDR, &bmi160config.gyro_cfg.range, 1, &bmi160config);
+
+    bmi160_set_power_mode(&bmi160config);
+
+    //FIXME: configure magnetometer
+    bmi160config.aux_cfg.aux_sensor_enable = 1;
+    bmi160config.aux_cfg.aux_odr = BMI160_AUX_ODR_100HZ;
+    bmi160config.aux_cfg.aux_i2c_addr = 0x10; //BMI160_AUX_BMM150_I2C_ADDR;
+    bmi160config.aux_cfg.manual_enable = 0;
+    bmi160config.aux_cfg.aux_rd_burst_len = BMI160_AUX_READ_LEN_3;
+
+    bmi160_aux_init(&bmi160config);
+
+
+    //bmm150config.chip_id = 0x12;
+    //bmm150config.intf = BMM150_I2C_INTF;
+    //bmm150config.read = bmi160_aux_read;
+    //bmm150config.write = bmi160_aux_write;
+    //bmm150config.delay_us = bmi_delay_ms;
+
+    //bmm150_init(&bmm150config);
+
+    //bmm150settg.preset_mode = BMM150_PRESETMODE_REGULAR;
+    //bmm150_set_presetmode(&bmm150settg, &bmm150config);
+    //bmm150settg.pwr_mode = BMM150_POWERMODE_FORCED;
+    //bmm150_set_op_mode(&bmm150settg, &bmm150config);
+
+    //uint8_t bmm150_data = 0x42;
+    //bmi160_set_aux_auto_mode(&bmm150_data, &bmi160config);
+
+
         /* Set the sensor configuration */
-    result = bmi160_set_sens_conf(&bmi160config);
+    //uint8_t test = 0x28;
+    //while(1) {
+        //result = bmi160_set_regs(BMI160_ACCEL_CONFIG_ADDR, &test, 1, &bmi160config);
+    //}
+
+    __delay_cycles(50000);
 
     /* Select interrupt configuration. Data ready interrupt on accelerometer */
 
+        //result = bmi160_get_sens_conf(&bmi160config);
 
 }
 
@@ -165,6 +211,11 @@ int8_t bmi_i2c_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint
     UCB0CTL1 |= UCTXSTT; //send start
     //while(UCB0CTL1 & UCTXSTT); //wait for start to clear
     while(!(UCB0IFG & UCTXIFG));
+    UCB0IFG &= ~UCTXIFG;
+
+    UCB0TXBUF = reg_addr;
+    while(!(UCB0IFG & UCTXIFG));//send register address
+    UCB0IFG &= ~UCTXIFG;
 
     for (uint16_t i = 0; i < len; i++) {
         if (i == len-1) {
@@ -178,6 +229,7 @@ int8_t bmi_i2c_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint
         else {
             UCB0TXBUF = reg_data[i]; //transmit byte
             while(!(UCB0IFG & UCTXIFG)); //USCI_B_I2C_masterSendMultiByteNext (USCI_B0_BASE, reg_data[i]); //send byte
+            UCB0IFG &= ~UCTXIFG;
         }
     }
 
@@ -263,10 +315,10 @@ void I2C_Init(void) {
 #elif defined __MSP430F6438__
     const uint8_t portmapping[] = {
                                    PM_NONE,//use remap controller to select P2.1 as SDA and P2.2 as SCL
-                                   PM_NONE, //PM_UCB0SDA,
+                                   PM_UCB0SDA, //PM_UCB0SDA,
                                    PM_UCB0SCL,
                                    PM_NONE,
-                                   PM_UCB0SDA,
+                                   PM_NONE, //PM_UCB0SDA,
                                    PM_NONE,
                                    PM_NONE,
                                    PM_NONE
@@ -278,12 +330,12 @@ void I2C_Init(void) {
     initPmapParams.portMapReconfigure = PMAP_ENABLE_RECONFIGURATION;
     PMAP_initPorts(PMAP_CTRL_BASE, &initPmapParams);
     //use P2SEL to select USCI SDA and SCL
-    //P2SEL |= BIT1 | BIT2;
-    P2SEL |= BIT2 | BIT4;
+    P2SEL |= BIT1 | BIT2;
+    //P2SEL |= BIT2 | BIT4;
 
     GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN3); //configure pins for interrupts, 2.3 is INT1, 2.4 is INT2
-    //GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN4);
-    GPIO_selectInterruptEdge(GPIO_PORT_P2, GPIO_PIN3, GPIO_LOW_TO_HIGH_TRANSITION);
+    GPIO_setAsInputPin(GPIO_PORT_P2, GPIO_PIN4);
+    GPIO_selectInterruptEdge(GPIO_PORT_P2, GPIO_PIN3 | GPIO_PIN4, GPIO_LOW_TO_HIGH_TRANSITION);
 #endif
 
     USCI_B_I2C_enable(USCI_B0_BASE);

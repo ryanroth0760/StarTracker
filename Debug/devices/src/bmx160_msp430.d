@@ -70,6 +70,8 @@ devices/src/bmx160_msp430.obj: C:/Users/troth/workspace_v10/StarTracker/driverli
 devices/src/bmx160_msp430.obj: C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/lcd_b.h
 devices/src/bmx160_msp430.obj: C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/flashctl.h
 devices/src/bmx160_msp430.obj: C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/crc.h
+devices/src/bmx160_msp430.obj: C:/Users/troth/workspace_v10/StarTracker/devices/inc/bmm150.h
+devices/src/bmx160_msp430.obj: C:/Users/troth/workspace_v10/StarTracker/devices/inc/bmm150_defs.h
 
 ../devices/src/bmx160_msp430.c: 
 C:/Users/troth/workspace_v10/StarTracker/devices/inc/bmx160_msp430.h: 
@@ -141,3 +143,5 @@ C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/usci_a_spi.h:
 C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/lcd_b.h: 
 C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/flashctl.h: 
 C:/Users/troth/workspace_v10/StarTracker/driverlib/MSP430F5xx_6xx/crc.h: 
+C:/Users/troth/workspace_v10/StarTracker/devices/inc/bmm150.h: 
+C:/Users/troth/workspace_v10/StarTracker/devices/inc/bmm150_defs.h: 

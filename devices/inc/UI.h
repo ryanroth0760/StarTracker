@@ -25,6 +25,9 @@ typedef enum _RE_DIR {
                              RIGHT = 1
 } RE_DIR;
 
+uint16_t bgColor;
+uint16_t textColor;
+
 /****** DEFINITIONS ******/
 
 /****** PUBLIC FUNCTION PROTOTYPES ******/
@@ -33,13 +36,19 @@ typedef enum _RE_DIR {
  * Name: UI_DisplayMenu
  * Purpose: Displays a Menu with parameters passed in. Returns region selected as a number. numOptions should be between 1 and 4
  */
-uint8_t UI_DisplayMenu(const char** options, uint8_t numOptions);
+uint8_t UI_DisplayMenu(char* option1, char* option2, char* option3, char* option4, uint8_t numOptions);
 
 /*
  * Purpose: Call LCD's initialization function and initialize P3.2-3.7 for use with rotary encoders.
  *          Falling edge interrupts on pins 3 and 6
  */
 void UI_Init(void);
+
+/*
+ * UI_SetColor
+ * Purpose: Sets colors for LCD menu between 4 presets
+ */
+void UI_SetColor(void);
 
 /****** PUBLIC FUNCTION PROTOTYPES ******/
 

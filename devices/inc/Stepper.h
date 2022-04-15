@@ -17,10 +17,30 @@
 #define STEP3_DIR   GPIO_PIN6
 
 /*
+ * Name: Stepper_Init()
+ * Purpose: Initializes stepper motor pins and Timer A0 Module used to PWM the stepper motors
+ */
+void Stepper_Init(void);
+
+/*
  * Name: AlignSteppers
  * Purpose: Aligns camera mount to be parallel to ground and aligns north
  */
 void AlignSteppers(void);
+
+/*
+ * Name: Stepper_Track
+ * Purpose: Rotates Step 1 clockwise to counteract earth's counterclockwise rotation
+ */
+void Stepper_Track(void);
+
+void AxisAlign(void);
+
+/*
+ * Name: AlignNorth
+ * Purpose: Aligns camera mount to face towards earth's magnetic north.
+ */
+void AlignNorth(void);
 
 /*
  * Move steppers with rotary encoders
